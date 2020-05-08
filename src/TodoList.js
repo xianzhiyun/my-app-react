@@ -33,7 +33,7 @@ class TodoList extends Component {
         //     const action = getListAction(data)
         //     store.dispatch(action)
         // })
-        store.dispatch(getTodoList())
+        // store.dispatch(getTodoList())
     }
 
     changeInputValue(e) {
