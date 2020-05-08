@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import 'antd/dist/antd.css';
-import {Input, Button, List} from 'antd';
 import store from "./store";
 import {addItemAction, changeInputAction, deleteItemAction} from "./store/actionCreators";
+import TodoListUi from "./TodoListUI";
 
 class TodoList extends Component {
     constructor(props) {
@@ -11,39 +11,20 @@ class TodoList extends Component {
         this.changeInputValue = this.changeInputValue.bind(this)
         this.storeChange = this.storeChange.bind(this)
         this.clickBtn = this.clickBtn.bind(this)
+        this.deleteItem = this.deleteItem.bind(this)
         // 订阅模式
         store.subscribe(this.storeChange)
     }
 
     render() {
         return (
-            <Fragment>
-                <div style={{padding: '10px'}}>
-                    <div>
-                        <Input
-                            style={{width: '300px', marginRight: '20px'}}
-                            value={this.state.inputValue}
-                            onChange={this.changeInputValue}/>
-                        <Button
-                            onClick={this.clickBtn}
-                            type="primary"
-                        >Primary</Button>
-                    </div>
-                    <div style={{marginTop: '10px'}}>
-                        <List
-                            bordered
-                            dataSource={this.state.list}
-                            renderItem={(item, index) => (
-                                <List.Item
-                                    onClick={this.deleteItem.bind(this, index)}
-                                >
-                                    {item}
-                                </List.Item>
-                            )}
-                        />
-                    </div>
-                </div>
-            </Fragment>
+            <TodoListUi
+                inputValue={this.state.inputValue}
+                list={this.state.list}
+                changeInputValue={this.changeInputValue}
+                deleteItem={this.deleteItem}
+                clickBtn={this.clickBtn}
+            />
         )
     }
 
