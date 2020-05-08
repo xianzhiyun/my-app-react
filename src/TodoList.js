@@ -1,64 +1,46 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
-import store from "./store";
-import {addItemAction, changeInputAction, deleteItemAction, getMyListAction} from "./store/actionCreators";
+import {addItemAction, changeInputAction, deleteItemAction} from "./store/actionCreators";
 import TodoListUi from "./TodoListUI";
+import {connect} from "react-redux";
 
 class TodoList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = store.getState()
-        this.changeInputValue = this.changeInputValue.bind(this)
-        this.storeChange = this.storeChange.bind(this)
-        this.clickBtn = this.clickBtn.bind(this)
-        this.deleteItem = this.deleteItem.bind(this)
-        // 订阅模式
-        store.subscribe(this.storeChange)
-    }
-
     render() {
+        let {list, inputValue, changeInputValue, deleteItem, clickBtn} = this.props
         return (
             <TodoListUi
-                inputValue={this.state.inputValue}
-                list={this.state.list}
-                changeInputValue={this.changeInputValue}
-                deleteItem={this.deleteItem}
-                clickBtn={this.clickBtn}
+                inputValue={inputValue}
+                list={list}
+                changeInputValue={changeInputValue}
+                deleteItem={deleteItem}
+                clickBtn={clickBtn}
             />
         )
     }
-    componentDidMount() {
-        /*axios.get('https://www.easy-mock.com/mock/5eb567bb88c1e91c7d5e7833/example/getList').then((res) => {
-            const data=res.data
-            const action = getListAction(data)
-            store.dispatch(action)
-        })*/
-        /*
-            // redux-thunk
-            store.dispatch(getTodoList())
-        */
-        store.dispatch(getMyListAction())
-    }
+}
 
-    changeInputValue(e) {
-        const action = changeInputAction(e.target.value)
-        store.dispatch(action)
-    }
-
-    storeChange() {
-        console.log(`%c store改变了`, 'font-size: 16px; font-weight: bold;color:green',);
-        this.setState(store.getState())
-    }
-
-    clickBtn() {
-        const action = addItemAction()
-        store.dispatch(action)
-    }
-
-    deleteItem(index) {
-        const action = deleteItemAction(index)
-        store.dispatch(action)
+const stateToProps = (state) => {
+    return {
+        inputValue: state.inputValue,
+        list: state.list
     }
 }
 
-export default TodoList;
+const dispatchToProps = (dispatch) => {
+    return {
+        changeInputValue(e) {
+            const action = changeInputAction(e.target.value)
+            dispatch(action)
+        },
+        clickBtn() {
+            const action = addItemAction()
+            dispatch(action)
+        },
+        deleteItem(index) {
+            const action = deleteItemAction(index)
+            dispatch(action)
+        }
+    }
+}
+
+export default connect(stateToProps, dispatchToProps)(TodoList);
