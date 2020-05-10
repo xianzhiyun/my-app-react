@@ -1,17 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import TodoList from "./TodoList";
-import {Provider} from "react-redux";
-import store from './store'
 
-const App = (
-    <Provider store={store}>
-        <TodoList/>
-    </Provider>
-)
+import AppRouter from './AppRouter'
 
 ReactDOM.render(
-    App,
+    <AppRouter />,
     document.getElementById('root')
 );
