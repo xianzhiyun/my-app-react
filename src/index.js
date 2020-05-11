@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import AppRouter from './AppRouter'
+import Example from "./example/Example6";
 
 ReactDOM.render(
-    <AppRouter />,
+    <Example />,
     document.getElementById('root')
 );
